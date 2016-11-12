@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<h:html xmlns:h="http://www.w3.org/1999/xhtml" xmlns:orx="http://openrosa.org/jr/xforms" xmlns="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jr="http://openrosa.org/javarosa" xmlns:vellum="http://commcarehq.org/xforms/vellum">
+	<h:head>
+		<h:title>Registro</h:title>
+		<model>
+			<instance>
+				<data xmlns:jrm="http://dev.commcarehq.org/jr/xforms" xmlns="http://openrosa.org/formdesigner/ED143ABA-1DA2-479B-860D-21E7C391C4E3" uiVersion="1" version="1" name="Registro">
+					<question1 />
+					<edad />
+					<question2 />
+					<question3 />
+					<historial_votaciones />
+					<ocaciones_voto />
+					<presidente_elegidos />
+				</data>
+			</instance>
+			<bind vellum:nodeset="#form/question1" nodeset="/data/question1" type="xsd:string" required="true()" />
+			<bind vellum:nodeset="#form/edad" nodeset="/data/edad" type="xsd:int" constraint=". &lt; 100 and . &gt; 0" vellum:relevant="selected(#form/question1, #form/question1)" relevant="selected(/data/question1, /data/question1)" required="true()" />
+			<bind vellum:nodeset="#form/question2" nodeset="/data/question2" required="true()" />
+			<bind vellum:nodeset="#form/question3" nodeset="/data/question3" vellum:relevant="selected(#form/question2, 'choice1')" relevant="selected(/data/question2, 'choice1')" required="true()" />
+			<bind vellum:nodeset="#form/historial_votaciones" nodeset="/data/historial_votaciones" vellum:relevant="selected(#form/question2, 'choice1') or selected(#form/question2, 'choice2')" relevant="selected(/data/question2, 'choice1') or selected(/data/question2, 'choice2')" required="true()" />
+			<bind vellum:nodeset="#form/ocaciones_voto" nodeset="/data/ocaciones_voto" type="xsd:int" constraint=". &gt; 0 and . &lt; 10" vellum:relevant="#form/historial_votaciones = 'choice1'" relevant="/data/historial_votaciones = 'choice1'" required="true()" />
+			<bind vellum:nodeset="#form/presidente_elegidos" nodeset="/data/presidente_elegidos" vellum:relevant="#form/historial_votaciones = 'choice1'" relevant="/data/historial_votaciones = 'choice1'" vellum:calculate="#form/ocaciones_voto" calculate="/data/ocaciones_voto" />
+			<setvalue event="xforms-ready" vellum:ref="#form/presidente_elegidos" ref="/data/presidente_elegidos" value="0" />
+			<itext>
+				<translation lang="en" default="">
+					<text id="question1-label">
+						<value>Ingrese Nombre</value>
+					</text>
+					<text id="edad-label">
+						<value>Edad</value>
+					</text>
+					<text id="question2-label">
+						<value>¿Piensa votar en las elecciones?</value>
+					</text>
+					<text id="question2-choice1-label">
+						<value>SI</value>
+					</text>
+					<text id="question2-choice2-label">
+						<value>NO</value>
+					</text>
+					<text id="question3-label">
+						<value>¿Conoce el plan de Gobierno de su candidato elegido?</value>
+					</text>
+					<text id="question3-choice1-label">
+						<value>SI</value>
+					</text>
+					<text id="question3-choice2-label">
+						<value>NO</value>
+					</text>
+					<text id="historial_votaciones-label">
+						<value>¿Ha votado en elecciones anteriormente?</value>
+					</text>
+					<text id="historial_votaciones-choice1-label">
+						<value>SI</value>
+					</text>
+					<text id="historial_votaciones-choice2-label">
+						<value>NO</value>
+					</text>
+					<text id="ocaciones_voto-label">
+						<value>¿Cuantas Participaciones tiene?</value>
+					</text>
+				</translation>
+			</itext>
+		</model>
+	</h:head>
+	<h:body>
+		<input vellum:ref="#form/question1" ref="/data/question1">
+			<label ref="jr:itext('question1-label')" />
+		</input>
+		<input vellum:ref="#form/edad" ref="/data/edad">
+			<label ref="jr:itext('edad-label')" />
+		</input>
+		<select1 vellum:ref="#form/question2" ref="/data/question2">
+			<label ref="jr:itext('question2-label')" />
+			<item>
+				<label ref="jr:itext('question2-choice1-label')" />
+				<value>choice1</value>
+			</item>
+			<item>
+				<label ref="jr:itext('question2-choice2-label')" />
+				<value>choice2</value>
+			</item>
+		</select1>
+		<select1 vellum:ref="#form/question3" ref="/data/question3">
+			<label ref="jr:itext('question3-label')" />
+			<item>
+				<label ref="jr:itext('question3-choice1-label')" />
+				<value>choice1</value>
+			</item>
+			<item>
+				<label ref="jr:itext('question3-choice2-label')" />
+				<value>choice2</value>
+			</item>
+		</select1>
+		<select1 vellum:ref="#form/historial_votaciones" ref="/data/historial_votaciones">
+			<label ref="jr:itext('historial_votaciones-label')" />
+			<item>
+				<label ref="jr:itext('historial_votaciones-choice1-label')" />
+				<value>choice1</value>
+			</item>
+			<item>
+				<label ref="jr:itext('historial_votaciones-choice2-label')" />
+				<value>choice2</value>
+			</item>
+		</select1>
+		<input vellum:ref="#form/ocaciones_voto" ref="/data/ocaciones_voto">
+			<label ref="jr:itext('ocaciones_voto-label')" />
+		</input>
+	</h:body>
+</h:html>
